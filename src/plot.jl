@@ -69,27 +69,15 @@ function PlotATA(
     Plots.yaxis!(L"ICF({\theta})")
     Plots.xaxis!(L"{\theta}")
     Plots.savefig(string(results_folder, "/ICFPlot.pdf"))
-    if size(simPool, 1) > 0
-        IIFtrue = Vector{Vector{Float64}}(undef, T)
-        for t = 1:T
-            IIFtrue[t] =
-                item_info(
-                    simPool,
-                    ThetasPlot,
-                    model = ATAmodel.settings.IRT.model,
-                    parametrization = ATAmodel.settings.IRT.parametrization,
-                    D = ATAmodel.settings.IRT.D,
-                )' * design[:, t]
-        end
-    end
+    
 end
 function PlotATA_CC(
-    ATAmodel::Model,
+    ATAmodel::ATA.Model,
     IIFf,
     ICFf,
     design::Matrix{Float64};
     simPool = Float64[],
-    results_folder = "RESULTS",
+    results_folder = "RESULTS"
 )
     T = ATAmodel.settings.T
     alphaR = Int(ceil(ATAmodel.obj.aux_int * (ATAmodel.obj.aux_float)))
@@ -117,14 +105,14 @@ function PlotATA_CC(
                 df = DataFrames.DataFrame(a = BSa[:, r], b = BSb[:, r], c = BSc[:, r])
             end
             for k = 1:101
-                IIF_plot[t][k, :, r] = item_info(
+                IIF_plot[t][k, :, r] = ATA.item_info(
                     df,
                     ThetasPlot[k],
                     model = ATAmodel.settings.IRT.model,
                     parametrization = ATAmodel.settings.IRT.parametrization,
                     D = ATAmodel.settings.IRT.D,
                 ) # IxK[t]
-                ICF_CC_plot[t][k, :, r] = item_char(
+                ICF_CC_plot[t][k, :, r] = ATA.item_char(
                     df,
                     ThetasPlot[k],
                     model = ATAmodel.settings.IRT.model,
@@ -156,6 +144,19 @@ function PlotATA_CC(
             string(results_folder, "/IIFdesigntoplot_", t, ".csv"),
             IIFdesigntoplot[t],
         )
+    end
+    if size(simPool, 1) > 0
+        IIFtrue = Vector{Vector{Float64}}(undef, T)
+        for t = 1:T
+            IIFtrue[t] =
+                ATA.item_info(
+                    simPool,
+                    ThetasPlot,
+                    model = ATAmodel.settings.IRT.model,
+                    parametrization = ATAmodel.settings.IRT.parametrization,
+                    D = ATAmodel.settings.IRT.D,
+                )' * design[:, t]
+        end
     end
     for t = 1:T
         #plot(IIFdesigntoplot[t][:,1],IIFdesigntoplot[t][:,2],seriestype=:scatter)
