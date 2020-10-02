@@ -1,10 +1,10 @@
-function PlotATA(
+function plot_ATA(
     ATAmodel::ATA.Model,
     IIFf,
     ICFf,
     design::Matrix{Float64};
     simPool = Float64[],
-    results_folder = "RESULTS",
+    results_folder = "RESULTS"
 )
     Plots.pgfplotsx()
     T = ATAmodel.settings.T
@@ -69,9 +69,9 @@ function PlotATA(
     Plots.yaxis!(L"ICF({\theta})")
     Plots.xaxis!(L"{\theta}")
     Plots.savefig(string(results_folder, "/ICFPlot.pdf"))
-    
+
 end
-function PlotATA_CC(
+function plot_ATA_CC(
     ATAmodel::ATA.Model,
     IIFf,
     ICFf,
