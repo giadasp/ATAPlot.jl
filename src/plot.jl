@@ -4,7 +4,7 @@ function plot_ATA(
     ICFf,
     design::Matrix{Float64};
     simPool = Float64[],
-    results_folder = "RESULTS"
+    results_folder = "RESULTS",
 )
     Plots.pgfplotsx()
     T = ATAmodel.settings.T
@@ -45,10 +45,10 @@ function plot_ATA(
     Plots.xaxis!(L"{\theta}")
     Plots.savefig(string(results_folder, "/TIFPlot.pdf"))
     maxscore = [sum(design[:, t]) for t = 1:T]
-    ICFf = [ICFf[t, i] ./ maxscore[t] for t = 1:T, i = 1:101]
+    TCFf = [ICFf[t, i] ./ maxscore[t] for t = 1:T, i = 1:101]
     Plots.plot(
         ThetasPlot,
-        ICFf',
+        TCFf',
         xlims = (-4, 4),
         xticks = -4:1:4,
         size = (500, 400),
@@ -66,9 +66,9 @@ function plot_ATA(
         alpha = 0.5,
         labels = permutedims([string("t", t) for t = 1:T]),
     )
-    Plots.yaxis!(L"ICF({\theta})")
+    Plots.yaxis!(L"TCF({\theta})")
     Plots.xaxis!(L"{\theta}")
-    Plots.savefig(string(results_folder, "/ICFPlot.pdf"))
+    Plots.savefig(string(results_folder, "/TCFPlot.pdf"))
 
 end
 function plot_ATA_CC(
@@ -77,7 +77,7 @@ function plot_ATA_CC(
     ICFf,
     design::Matrix{Float64};
     simPool = Float64[],
-    results_folder = "RESULTS"
+    results_folder = "RESULTS",
 )
     T = ATAmodel.settings.T
     alphaR = Int(ceil(ATAmodel.obj.aux_int * (ATAmodel.obj.aux_float)))
