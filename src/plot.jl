@@ -71,6 +71,7 @@ function plot_ATA(
     Plots.savefig(string(results_folder, "/TCFPlot.pdf"))
 
 end
+
 function plot_ATA_CC(
     ATAmodel::ATA.Model,
     IIFf,
