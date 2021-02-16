@@ -1,7 +1,7 @@
 name = "ATAPlot"
 uuid = "372623d9-1dd6-4d20-a513-3f20705132c0"
 authors = ["GiadaSpaccapanico <giadasp@users.noreply.github.com>"]
-version = "0.1.0"
+version = "0.2.0"
 
 [deps]
 JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
