@@ -81,7 +81,7 @@ function plot_ATA_CC(
     results_folder = "RESULTS",
 )
     T = ATAmodel.settings.T
-    alphaR = Int(ceil(ATAmodel.obj.aux_int * (ATAmodel.obj.aux_float)))
+    alphaR = Int(ceil(ATAmodel.obj.cores[1].alpha * (ATAmodel.obj.cores[1].R)))
     IIF_plot = Vector{Array{Float64,3}}(undef, T)
     ICF_CC_plot = Vector{Array{Float64,3}}(undef, T)
     ThetasPlot = collect(range(-4, stop = 4, length = 101)) #nqp values in interval/r/n",
@@ -92,7 +92,7 @@ function plot_ATA_CC(
     end
     BSa = Matrix(BSPar[2])[:, 2:end]
     BSb = Matrix(BSPar[1])[:, 2:end]
-    R = ATAmodel.obj.aux_int
+    R = ATAmodel.obj.cores[1].R
     for t = 1:T
         println(t)
         IIF_plot[t] = zeros(101, ATAmodel.settings.n_items, R)
@@ -134,10 +134,10 @@ function plot_ATA_CC(
             end
             IIFdesigntoplot[t][k, :] = sort(TIF[k, :])[[
                 1,
-                Int(ceil(ATAmodel.obj.aux_int * 0.25)),
-                Int(ceil(ATAmodel.obj.aux_int * 0.5)),
-                Int(ceil(ATAmodel.obj.aux_int * 0.75)),
-                ATAmodel.obj.aux_int,
+                Int(ceil(R * 0.25)),
+                Int(ceil(R * 0.5)),
+                Int(ceil(R * 0.75)),
+                R,
                 alphaR,
             ]]
         end
