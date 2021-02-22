@@ -73,7 +73,7 @@ function plot_ATA(
 end
 
 function plot_ATA_CC(
-    ATAmodel::ATA.CcMaximiModel,
+    ATAmodel::ATA.CcMaximinModel,
     IIFf,
     ICFf,
     design::Matrix{Float64};
